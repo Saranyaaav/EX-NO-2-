@@ -1,12 +1,7 @@
 ## EX. NO:2 IMPLEMENTATION OF PLAYFAIR CIPHER
 
- 
-
 ## AIM:
  
-
- 
-
 To write a C program to implement the Playfair Substitution technique.
 
 ## DESCRIPTION:
@@ -18,10 +13,9 @@ To encrypt a message, one would break the message into digrams (groups of 2 lett
 2.	If the letters appear on the same row of your table, replace them with the letters to their immediate right respectively
 3.	If the letters appear on the same column of your table, replace them with the letters immediately below respectively
 4.	If the letters are not on the same row or column, replace them with the letters on the same row respectively but at the other pair of corners of the rectangle defined by the original pair.
+   
 ## EXAMPLE:
 ![image](https://github.com/Hemamanigandan/EX-NO-2-/assets/149653568/e6858d4f-b122-42ba-acdb-db18ec2e9675)
-
- 
 
 ## ALGORITHM:
 
@@ -31,13 +25,78 @@ STEP-3: Arrange the keyword without duplicates in a 5*5 matrix in the row order 
 STEP-4: Group the plain text in pairs and match the corresponding corner letters by forming a rectangular grid.
 STEP-5: Display the obtained cipher text.
 
+## Program:
+```
+#include <stdio.h>
+#include <string.h>
 
+int main() {
+    unsigned int a[3][3] = {
+        {6, 24, 1},
+        {13, 16, 10},
+        {20, 17, 15}
+    }; // Encryption key matrix
 
+    unsigned int b[3][3] = {
+        {8, 5, 10},
+        {21, 8, 21},
+        {21, 12, 8}
+    }; // Decryption key matrix (inverse of 'a' mod 26)
 
-Program:
+    int i, j, t = 0;
+    unsigned int c[20], d[20];
+    char msg[20];
 
+    printf("Enter 3-letter plain text (in CAPS): ");
+    scanf("%s", msg);
 
+    if (strlen(msg) != 3) {
+        printf("Please enter exactly 3 uppercase letters.\n");
+        return 1;
+    }
 
+    // Convert characters to numbers
+    printf("Numeric Representation: ");
+    for (i = 0; i < 3; i++) {
+        c[i] = msg[i] - 'A';
+        printf("%d ", c[i]);
+    }
 
+    // Encryption
+    for (i = 0; i < 3; i++) {
+        t = 0;
+        for (j = 0; j < 3; j++) {
+            t += a[i][j] * c[j];
+        }
+        d[i] = t % 26;
+    }
 
-Output:
+    printf("\nEncrypted Cipher Text: ");
+    for (i = 0; i < 3; i++) {
+        printf("%c", d[i] + 'A');
+    }
+
+    // Decryption
+    for (i = 0; i < 3; i++) {
+        t = 0;
+        for (j = 0; j < 3; j++) {
+            t += b[i][j] * d[j];
+        }
+        c[i] = t % 26;
+    }
+
+    printf("\nDecrypted Plain Text: ");
+    for (i = 0; i < 3; i++) {
+        printf("%c", c[i] + 'A');
+    }
+
+    printf("\n");
+    return 0;
+}
+```
+
+## Output:
+![image](https://github.com/user-attachments/assets/770acb04-da2d-40b8-adb1-58519291e5ce)
+
+## Result:
+The program is executed successfully.
